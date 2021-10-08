@@ -6,6 +6,7 @@ import { LOCAL_CURRENT_SONG_INDEX_KEY } from '../common/constants'
  * @param {String} key 本地存储key
  */
 export function addPlaylistId(id, key = LOCAL_PLAYLIST_ID_KEY) {
+  // 将听过的歌曲列表缓存在本地
   const songListId = localStorage.getItem(key)
     ? JSON.parse(localStorage.getItem(key))
     : []
@@ -16,7 +17,7 @@ export function addPlaylistId(id, key = LOCAL_PLAYLIST_ID_KEY) {
   } else if (typeof id === 'number') {
     // 本地存储保存包括不再重复添加
     if (!songListId.includes(id)) songListId.push(id)
-    } else {
+  } else {
     throw Error('id只能是数字或者数组类型')
   }
   localStorage.setItem(key, JSON.stringify(songListId))
@@ -81,7 +82,7 @@ export function resetPlaylistId(idArr) {
  * @param {*} key 
  */
 export function setCurrentSongIndex(index, key = LOCAL_CURRENT_SONG_INDEX_KEY) {
-    localStorage.setItem(key, index)
+  localStorage.setItem(key, index)
 }
 
 /**

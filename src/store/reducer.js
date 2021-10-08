@@ -1,4 +1,4 @@
-//对个个子redux的reducers进行整合
+//combineReducers将redux的reducers进行整合
 import { combineReducers } from 'redux-immutable';
 
 import { reducer as recommendReducer } from '../pages/discover/child-pages/recommend/store';

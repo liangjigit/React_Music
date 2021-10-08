@@ -163,13 +163,13 @@ export const getSongDetailAction = (idx) => {
   }
 }
 
-// 歌曲详情network request(只有首次加载才会触发 Action,所以不redux中的playlist肯定不存在歌曲)
+// 歌曲详情(只有首次加载才会触发 Action,所以不redux中的playlist肯定不存在歌曲)
 export const getSongDetailArrayAction = (listId, index) => {
   // 为什么单独抽离: (是根据listId来进行存储的)
   return (dispatch, getState) => {
     /* 
       （0）场景：在我们拿到歌曲列表数组id时，循环遍历发送网络请求时
-      （1）首先如何控制这一次网络请求成功之后在进行，下一次网络请求呢？（获取异步操作的结果）
+      （1）首先如何控制这一次网络请求成功之后在进行下一次网络请求呢？（获取异步操作的结果）
       （2）解决方案：promise + setinterval（定时器）
       （3）可能有人会问，为什么使用定时器呢？
       （4）这是因为在咱们发送ajax时，不能很好的进行控制，使用一个标识变量来进行控制ajax是否发送（默认为true）
@@ -184,83 +184,37 @@ export const getSongDetailArrayAction = (listId, index) => {
     let i = 0
     let timer = null
     let excuteRun = true
-/*     listId.forEach(async (idx) => {
-      console.log(1)
-      await new Promise((resolve) => {
-        getSongDetail(idx).then((res) => {
-          console.log(2)
-        // (0)歌曲ID添加到本地存储
+    timer = setInterval(() => {
+      //获取本地当前正在播放的歌曲
+      let idx = listId[i]
+      new Promise(resolve => {
+        excuteRun && getSongDetail(idx).then((res) => {
+          excuteRun = false
+          // 歌曲ID添加到本地存储
           addPlaylistId(idx)
           const song = res.songs && res.songs[0]
-          // console.log(song)
           if (!song) return
-          // (1)添加到播放列表中
+          // (1)添加到播放列表中 redux中
           playList.push(song)
           dispatch(changePlayListAction(playList))
           // (2)更改当前播放的索引
+          // 只有当左侧为null和undefined时，才会返回右侧的数
           const songIndex = index ?? playList.length - 1
           dispatch(changeSongIndexAction(songIndex))
           // (3)更改当前播放歌曲
           let currentIndexSong = playList[songIndex] || song
-          // console.log(currentIndexSong)
           dispatch(changeCurrentSongAction(currentIndexSong))
           // (4)请求歌曲的歌词
           dispatch(getLyricAction(idx))
           // (5)更新歌曲数量
           dispatch(changePlayListCount(playList.length))
-          resolve()
+          resolve(i)
         })
-      })
-      console.log(3)
-    }) */
-
-    timer = setInterval(() => {
-      let idx = listId[i]
-      new Promise((resolve, reject) => {
-        excuteRun &&
-          getSongDetail(idx).then((res) => {
-            excuteRun = false
-            // console.log(res.songs[0])
-            // (0)歌曲ID添加到本地存储
-            addPlaylistId(idx)
-            const song = res.songs && res.songs[0]
-            // console.log(song)
-            if (!song) return
-            // (1)添加到播放列表中
-            playList.push(song)
-            dispatch(changePlayListAction(playList))
-            // (2)更改当前播放的索引
-            const songIndex = index ?? playList.length - 1
-            dispatch(changeSongIndexAction(songIndex))
-            // (3)更改当前播放歌曲
-            let currentIndexSong = playList[songIndex] || song
-            // console.log(currentIndexSong)
-            dispatch(changeCurrentSongAction(currentIndexSong))
-            // (4)请求歌曲的歌词
-            dispatch(getLyricAction(idx))
-            // (5)更新歌曲数量
-            dispatch(changePlayListCount(playList.length))
-            resolve(i)
-          })
       }).then((value) => {
         excuteRun = true
-        // console.log(value)
       })
       i++
-      if (i >= listId.length) {
-        clearInterval(timer)
-        // console.log(playList)
-        // dispatch(changePlayListAction(playList))
-        // // // (2)更改当前播放的索引
-        // const songIndex = playList.length - 1
-        // dispatch(changeSongIndexAction(songIndex))
-        // // // (3)更改当前播放歌曲
-        // dispatch(changeCurrentSongAction(song))
-        // // // (4)请求歌曲的歌词
-        // dispatch(getLyricAction(idx))
-        // // // (5)更新歌曲数量
-        // dispatch(changePlayListCount(playList.length))
-      }
+      if (i >= listId.length) clearInterval(timer)
     })
   }
 }

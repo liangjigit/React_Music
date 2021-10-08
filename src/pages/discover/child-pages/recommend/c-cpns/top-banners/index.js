@@ -1,4 +1,4 @@
-// 1. 第三方开库
+// 1. 第三方库
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 
 // 2. 功能性东西

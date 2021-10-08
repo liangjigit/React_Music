@@ -1,3 +1,4 @@
+//前端对数据进行加解密
 import CryptoJS from 'crypto-js';
 import { secretKey } from '@/config/token.js';
 import { message } from 'antd';

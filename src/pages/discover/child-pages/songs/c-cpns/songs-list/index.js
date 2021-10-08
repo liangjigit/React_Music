@@ -31,20 +31,20 @@ export default memo(function HYSongsList() {
   }
   return (
     <SongListWrapper>
-      { !songList.length? <Skeleton active /> : <div className="songs-list">
+      {!songList.length ? <Skeleton active /> : <div className="songs-list">
         {
-          songList.map((item, index) => {
+          songList.map(item => {
             return (
               // <HYThemeCover info={item} key={item.id} right="30px" />
-              <SongCover info={item} />
+              <SongCover info={item} key={item.id} />
             )
           })
         }
       </div>}
-      <HYPagination currentPage={currentPage} 
-                    total={total} 
-                    pageSize={PER_PAGE_NUMBER}
-                    onPageChange={onPageChange}/>
+      <HYPagination currentPage={currentPage}
+        total={total}
+        pageSize={PER_PAGE_NUMBER}
+        onPageChange={onPageChange} />
     </SongListWrapper>
   )
 })

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASE_URL, TIMEOUT } from './config'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-NProgress.configure({showSpinner: false});
+NProgress.configure({ showSpinner: false });
 
 const instance = axios.create({
   // 默认的配置
@@ -18,11 +18,11 @@ instance.interceptors.request.use(
     // 1.发送网络请求时, 在界面的中间位置显示Loading的组件
     NProgress.start(); // 启动滚动条
     // 2.某一些请求要求用户必须携带token, 如果没有携带, 那么直接跳转到登录页面
-    
+
     // 3.params/data序列化的操作
     return config
   },
-  (err) => {}
+  (err) => { }
 )
 instance.interceptors.response.use(
   // 响应拦截
@@ -31,6 +31,7 @@ instance.interceptors.response.use(
     return res.data
   },
   (err) => {
+    NProgress.done()
     if (err && err.response) {
       switch (err.response.status) {
         case 400:

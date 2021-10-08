@@ -1,20 +1,24 @@
-//usecallback 搭配memo使用 当父组件通过props传递给子组件一个函数作为回调使用时，父组件某些变化
+//useCallback 搭配memo使用 当父组件通过props传递给子组件一个函数作为回调使用时，父组件某些变化
 //会引起回调函数的变化（memo是浅比较），因此子组件也会跟着更新，这时需要使用usecallback进行处理
+//useCallBack会固定该函数的引用，只要依赖项没有发生改变，则始终返回之前函数的地址
 //useSelector()不会阻止父组件重渲染导致的子组件重渲染的行为，即使组件的props没有发生改变
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
-//useSelector将redux数据映射到当前组件 shallowEqual用作第二参数
+//useSelector将redux数据映射到当前组件 shallowEqual(浅比较)用作第二参数
 //shallowEqual函数作为useSelector的equalityFn参数。
 //这个可选的参数使得我们可以使用Lodash的_.isEqual()和Immutable.js的比较功能
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { NavLink, Redirect } from 'react-router-dom';
-
 import { debounce } from '@/utils/format-utils.js';
 import {
+  //搜索歌曲
   getSearchSongListAction,
+  //改变焦点状态
   changeFocusStateAction,
 } from './store/actionCreator';
-import { headerLinks } from '@/common/local-data';
+//歌曲详情
 import { getSongDetailAction } from '@/pages/player/store';
+import { headerLinks } from '@/common/local-data';
+//登录组件主题
 import ThemeLogin from '@/components/theme-login';
 import { changeIsVisible } from '@/components/theme-login/store';
 

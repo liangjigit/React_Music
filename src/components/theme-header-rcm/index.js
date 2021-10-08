@@ -16,7 +16,7 @@ const ThemeHeaderRmc = function ThemeHeaderRmc(props) {
           {keywords.map(item => {
             return (
               <li className="item" key={item}>
-                <a href="/" onClick={(e) => {e.preventDefault();keywordsClick(item)}}>{item}</a>
+                <a href="/" onClick={(e) => { e.preventDefault(); keywordsClick(item) }}>{item}</a>
                 <span className="line">|</span>
               </li>
             )
@@ -25,7 +25,7 @@ const ThemeHeaderRmc = function ThemeHeaderRmc(props) {
       </RcmHeaderLeft>
       <RcmHeaderRight>
         <span>{right}</span>
-        {showIcon &&<i className="icon"></i>}
+        {showIcon && <i className="icon"></i>}
       </RcmHeaderRight>
     </RcmHeaderWrapper>
   )
@@ -40,7 +40,7 @@ ThemeHeaderRmc.propTypes = {
   keywordsClick: propTypes.func,
 }
 
-ThemeHeaderRmc.defaultProps  = {
+ThemeHeaderRmc.defaultProps = {
   keywords: [],
   showIcon: true,
   right: '更多'
