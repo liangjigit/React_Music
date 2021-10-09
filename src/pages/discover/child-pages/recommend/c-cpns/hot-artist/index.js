@@ -1,11 +1,8 @@
 import React, { memo } from 'react'
-
 import { hotRadios } from '@/common/local-data.js'
-
 import ArtistHeaderLine from '../artist-hot-composition/artist-header-line'
 import HotCoverInfo from '../artist-hot-composition/hot-cover-info'
 import { HotArtistWrapper } from './style'
-
 export default memo(function HotArtist() {
   return (
     <HotArtistWrapper>

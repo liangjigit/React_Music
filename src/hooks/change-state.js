@@ -1,6 +1,5 @@
 import { changeFocusStateAction } from '@/components/app-header/store/actionCreator'
 import { useDispatch } from 'react-redux'
-
 /**
  * 调用该函数,返回一个函数,改变搜索下拉框的状态(默认为false)
  * 改变搜索下拉框的状态
@@ -11,7 +10,6 @@ export function useChangeDropBoxState(state = false) {
     dispatch(changeFocusStateAction(state))
   }
 }
-
 /**
  * 调用该hook注册全局键盘事件: ctrl+k唤醒搜索框  esc关闭下拉框
  */
@@ -29,7 +27,6 @@ export async function useGlobalKeyboardEvent() {
     }
   })
 }
-
 /**
  * 唤醒登录框
  */

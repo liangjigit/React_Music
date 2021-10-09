@@ -1,6 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
+//Sortable是一个拖拽库，此处用于拖拽歌曲列表
 import Sortable from 'sortablejs';
 import PlaylistItem from './c-cpns/playlist-item';
 import {
@@ -16,10 +17,8 @@ import {
   // changeSongIndexAction
 } from '../../../store/actionCreator';
 import LyricContent from './c-cpns/lyric-content';
-import { removeAllSong , resetPlaylistId} from '@/utils/localstorage';
-
+import { removeAllSong, resetPlaylistId } from '@/utils/localstorage';
 function SliderPlaylist(props) {
-  // props/state
   const {
     isShowSlider,
     playlistCount,
@@ -27,20 +26,20 @@ function SliderPlaylist(props) {
     playMusic,
     changeSong,
   } = props;
-
-  // redux hook
   const dispatch = useDispatch();
-  const { currentSong, playList, currentSongIndex } = useSelector(
-    (state) => ({
-      currentSong: state.getIn(['player', 'currentSong']),
-      playList: state.getIn(['player', 'playList']),
-      currentSongIndex: state.getIn(['player', 'currentSongIndex']),
-    }),
-    shallowEqual
-  );
-
-  // other hook
+  const { currentSong, playList, currentSongIndex } = useSelector((state) => ({
+    currentSong: state.getIn(['player', 'currentSong']),
+    playList: state.getIn(['player', 'playList']),
+    currentSongIndex: state.getIn(['player', 'currentSongIndex']),
+  }), shallowEqual);
   const playlistRef = useRef();
+  // 清除全部歌曲
+  const clearAllPlaylist = (e) => {
+    e.preventDefault();
+    removeAllSong()
+    playList.splice(0, playList.length);
+    dispatch(changePlaylistAndCount(playList));
+  };
   // 歌曲列表拖拽初始化
   useEffect(() => {
     const el = playlistRef.current.querySelector('.main-playlist');
@@ -48,7 +47,7 @@ function SliderPlaylist(props) {
       sort: true,
       animation: 200,
       currentIndex: 0,
-      onEnd:  function (evt)  {
+      onEnd: function (evt) {
         // 拖拽结束发生该事件
         // tableData 改成自己的数组
         let tempPlayList = playList;
@@ -69,7 +68,6 @@ function SliderPlaylist(props) {
             情况一：如果是拖拽当前播放的歌曲，直接改变索引
             情况二：如果拖拽是其他歌曲，那么不改变索引
         */
-        
         // console.log(`当前播放的索引${currentSongIndex}  正在拖拽的索引${evt.newIndex}`, this)
         // 更改播放索引 拖拽的顺序 有问题 
         // dispatch(changeSongIndexAction(evt.newIndex))
@@ -89,48 +87,26 @@ function SliderPlaylist(props) {
         // console.log('currentSongIndex', currentSongIndex, changeSongIndexAction)
       },
     });
-    
   }, [currentSongIndex, dispatch, playList, currentSong]);
-
-  // other function
-  // 清除全部歌曲
-  const clearAllPlaylist = (e) => {
-    e.preventDefault();
-    removeAllSong()
-    playList.splice(0, playList.length);
-    dispatch(changePlaylistAndCount(playList));
-  };
-
   // 点击item播放音乐
   const clickItem = (index, item) => {
     // 播放音乐 dispatch
     dispatch(getSongDetailAction(item.id));
     playMusic();
   };
-
   return (
-    <SliderPlaylistWrapper
-      style={{ visibility: isShowSlider ? 'visible' : 'hidden' }}
+    <SliderPlaylistWrapper style={{ visibility: isShowSlider ? 'visible' : 'hidden' }}
       // 阻止事件冒泡
-      onClick={(e) => e.stopPropagation()}
-    >
+      onClick={(e) => e.stopPropagation()}>
       <SliderPlaylistHeader>
         <div className="playlist-header-left">
           <h3 className="header-title">播放列表({playlistCount})</h3>
           <div>
-            <a
-              href="/favorite"
-              className="header-icon"
-              onClick={(e) => e.preventDefault()}
-            >
+            <a href="/favorite" className="header-icon" onClick={(e) => e.preventDefault()}>
               <HeartOutlined />
               <span>收藏一下</span>
             </a>
-            <a
-              href="/clear"
-              onClick={(e) => clearAllPlaylist(e)}
-              className="header-icon"
-            >
+            <a href="/clear" onClick={(e) => clearAllPlaylist(e)} className="header-icon">
               <ClearOutlined />
               <span>清除播放列表</span>
             </a>
@@ -145,25 +121,24 @@ function SliderPlaylist(props) {
       </SliderPlaylistHeader>
       <SliderPlaylistMain ref={playlistRef}>
         <div className="main-playlist">
-          {playList &&
-            playList.map((item, index) => {
-              return (
-                <PlaylistItem
-                  key={item.id}
-                  isActive={
-                    (currentSongIndex ? currentSongIndex : 0) === index
-                      ? 'active'
-                      : ''
-                  }
-                  songName={item.name}
-                  singer={item.ar[0].name}
-                  duration={item.dt}
-                  clickItem={() => clickItem(index, item)}
-                  songId={item.id}
-                  nextMusic={() => changeSong(1)}
-                />
-              );
-            })}
+          {playList && playList.map((item, index) => {
+            return (
+              <PlaylistItem
+                key={item.id}
+                isActive={
+                  (currentSongIndex ? currentSongIndex : 0) === index
+                    ? 'active'
+                    : ''
+                }
+                songName={item.name}
+                singer={item.ar[0].name}
+                duration={item.dt}
+                clickItem={() => clickItem(index, item)}
+                songId={item.id}
+                nextMusic={() => changeSong(1)}
+              />
+            );
+          })}
         </div>
         <div className="main-line"></div>
         <LyricContent />
@@ -171,10 +146,8 @@ function SliderPlaylist(props) {
     </SliderPlaylistWrapper>
   );
 }
-
 SliderPlaylist.propTypes = {
   isShowSlider: propTypes.bool.isRequired,
   playlistCount: propTypes.number.isRequired,
 };
-
 export default memo(SliderPlaylist);

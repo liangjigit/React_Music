@@ -2,14 +2,11 @@ import React, { memo } from 'react'
 import { UserLoginWrapper } from './style'
 import { changeIsVisible } from '@/components/theme-login/store'
 import { useDispatch, useSelector } from 'react-redux'
-
 export default memo(function UserLogin() {
-  // redux
   const dispatch = useDispatch()
   const { isLogin } = useSelector((state) => ({
     isLogin: state.getIn(['loginState', 'isLogin']),
   }))
-  // handle function
   const handleLogin = () => {
     if (!isLogin) dispatch(changeIsVisible(true))
   }

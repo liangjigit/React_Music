@@ -9,8 +9,13 @@ import ThemeDialog from '@/components/theme-dialog/index'
 import initLoginInfo from '@/config/token.js'
 import { setLoginInfo, getLoginInfo } from '@/utils/secret-key'
 import { getLoginProfileInfo } from '@/components/theme-login/store/actionCreator'
-import { addPlaylistId, getCurrentSongIndex, getPlaylistId, initCurrentSongIndex } from '../../utils/localstorage'
-//默认音乐ID
+import {
+  addPlaylistId,
+  getCurrentSongIndex,
+  getPlaylistId,
+  initCurrentSongIndex
+} from '../../utils/localstorage'
+//默认音乐ID数组
 import { SONG_PLAYLIST_ID as songplaylistId } from '@/common/constants'
 import { getSongDetailArrayAction } from '../player/store/index'
 
@@ -19,12 +24,14 @@ export default memo(function APPWrapper() {
   const dispatch = useDispatch()
   // 初始化
   const initLogin = () => {
-    // 存在登录信息
+    // 本地存在登录信息则进行登录
     if (localStorage.getItem('loginInfo') != null) {
       const { username, password } = getLoginInfo('loginInfo')
-      username && password ? dispatch(getLoginProfileInfo(username, password)) : console.log('当前登录的默认信息')
+      username && password
+        ? dispatch(getLoginProfileInfo(username, password))
+        : console.log('当前登录的默认信息')
     } else {
-      // 不存在登录信息
+      // 不存在登录信息则存入默认信息
       setLoginInfo('loginInfo', initLoginInfo)
     }
   }
@@ -35,14 +42,13 @@ export default memo(function APPWrapper() {
     // 初始化音乐索引，记录当前正在播放的歌曲index为0
     initCurrentSongIndex()
   }, [])
-  // 本地存储读取歌曲列表ID
+  //useEffect绑定dispatch意味着其他组件中调用dispatch方法后该会调回执行
   useEffect(() => {
     // 动态获取locals store音乐索引 获取当前歌曲的index 默认为0 记录在本地
     const index = getCurrentSongIndex()
-    //getPlaylistId是获取当前缓存在本地的歌曲列表
     dispatch(getSongDetailArrayAction(getPlaylistId(), index))
-    //useEffect绑定dispatch意味着其他组件中调用dispatch方法后该会调回执行
   }, [dispatch])
+  //上传音乐组件取消方法
   const handleOk = () => {
     setIsShow(false)
   }
@@ -52,7 +58,7 @@ export default memo(function APPWrapper() {
   return (
     <>
       <Suspense fallback={<Skeleton active />}>{renderRoutes(routes)}</Suspense>
-      {/* 上传音乐组件 */}
+      {/* 全局上传音乐组件 */}
       <ThemeDialog
         controlShow={isShow}
         title="上传音乐"

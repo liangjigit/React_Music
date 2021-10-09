@@ -19,5 +19,5 @@ export default function Test() {
   useEffect(() => {
     console.log(banners)
   }, [banners])
-  return <div>123</div>
+  return <div>Test page</div>
 }

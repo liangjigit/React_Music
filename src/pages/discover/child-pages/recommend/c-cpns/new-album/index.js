@@ -1,15 +1,11 @@
 import React, { memo, useEffect, useRef } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
-
 import { getNewAlbumsAction } from '../../store/actionCreator'
-
 import ThemeHeaderRcm from 'components/theme-header-rcm'
 import AlbumCover from 'components/album-cover'
 import { NewAlbumWrapper } from './style'
 import { Carousel } from 'antd'
-
 export default memo(function NewAlbum() {
-  // redux hook
   const dispatch = useDispatch()
   const { newAlbums } = useSelector(
     state => ({
@@ -17,18 +13,12 @@ export default memo(function NewAlbum() {
     }),
     shallowEqual
   )
-
-  //  other hook
   const albumRef = useRef()
   // (新碟上架)
   useEffect(() => {
     dispatch(getNewAlbumsAction())
   }, [dispatch])
-
-  /* 轮播图布局思路:
-      两个页面轮播: 2page
-      在page中添加一个个item
-  */
+  // 轮播图布局思路:两个页面轮播: 2page 在page中添加一个个item
   return (
     <NewAlbumWrapper>
       <ThemeHeaderRcm title="新碟上架" />

@@ -1,15 +1,12 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+// 默认加载
 import Test from '@/pages/test'
-
-// import JMMine from '@/pages/mine'
 // 懒加载
 const JMDiscover = React.lazy(() => import('@/pages/discover'))
 const JMRecommend = React.lazy(() => import('@/pages/discover/child-pages/recommend'))
 const JMToplist = React.lazy(() => import('@/pages/discover/child-pages/toplist'))
 const JMSongs = React.lazy(() => import('@/pages/discover/child-pages/songs'))
-const JMDjradio = React.lazy(() => import('@/pages/discover/child-pages/djradio'))
-const JMArtist = React.lazy(() => import('@/pages/discover/child-pages/artist'))
 const JMAlbum = React.lazy(() => import('@/pages/discover/child-pages/album'))
 const JMSongDetail = React.lazy(() => import('@/pages/player'))
 const JMFriend = React.lazy(() => import('@/pages/friend'))
@@ -17,7 +14,6 @@ const JMMine = React.lazy(() => import('@/pages/mine'))
 const JMSearch = React.lazy(() => import('@/pages/search'))
 const JMSingle = React.lazy(() => import('@/pages/search/child-pages/single'))
 const JMSinger = React.lazy(() => import('@/pages/search/child-pages/singer'))
-const JMSearchAlbum = React.lazy(() => import('@/pages/search/child-pages/album'))
 const JMSonglist = React.lazy(() => import('@/pages/song-detail'))
 const JMUser = React.lazy(() => import('@/pages/profile'))
 const JM404 = React.lazy(() => import('@/pages/404'))
@@ -30,16 +26,14 @@ const routes = [
     routes: [
       {
         path: '/discover',
+        //准确匹配
         exact: true,
         render: () => <Redirect to="/discover/recommend" />,
       },
       { path: '/discover/recommend', component: JMRecommend },
       { path: '/discover/ranking', component: JMToplist },
-      { path: '/discover/ranking', component: JMToplist },
-      { path: '/discover/album', component: JMAlbum },
-      { path: '/discover/djradio', component: JMDjradio },
-      { path: '/discover/artist', component: JMArtist },
       { path: '/discover/songs', component: JMSongs },
+      { path: '/discover/album', component: JMAlbum },
       { path: '/discover/song', component: JMSongDetail },
     ],
   },
@@ -55,8 +49,7 @@ const routes = [
         render: () => <Redirect to="/search/single?song=&type=1" />,
       },
       { path: '/search/single', component: JMSingle },
-      { path: '/search/singer', component: JMSinger },
-      { path: '/search/album/', component: JMSearchAlbum },
+      { path: '/search/singer', component: JMSinger }
     ],
   },
   {

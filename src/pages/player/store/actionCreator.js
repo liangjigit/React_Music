@@ -8,66 +8,54 @@ const changeCurrentSongAction = (currentSong) => ({
   type: actionType.CHANGE_CURRENT_SONG,
   currentSong,
 })
-
 // 更改歌曲索引Action
 export const changeSongIndexAction = (index) => {
-  // 设置本次存储Index
   setCurrentSongIndex(index)
   return {
     type: actionType.CHANGE_CURRENT_SONG_INDEX,
     index,
   }
 }
-
 // 更改播放列表Action
 export const changePlayListAction = (playList) => ({
   type: actionType.CHANGE_PLAY_LIST,
   playList,
 })
-
 // 改变歌词Action
 const changeLyricAction = (lyric) => ({
   type: actionType.CHANGE_LYRIC_LIST,
   lyric,
 })
-
 // 改变热门评论Action
 const changeHotComment = (hotComments) => ({
   type: actionType.CHANGE_HOT_COMMENT,
   hotComments,
 })
-
 // 改变歌曲数量
 const changePlayListCount = (count) => ({
   type: actionType.CHANGE_PLAY_LIST_COUNT,
   count,
 })
-
 // 首次加载Action
 export const changeFirstLoad = (isFirstLoad) => ({
   type: actionType.CHANGE_FIRST_LOAD,
   isLoad: isFirstLoad,
 })
-
 // 改变currentLyricIndex
 export const changeCurrentLyricIndexAction = (index) => ({
   type: actionType.CHANGE_CURRENT_LYRIC_INDEX,
   index,
 })
-
 // 更改播放顺序Action
 export const changePlaySequenceAction = (sequence) => ({
   type: actionType.CHANGE_PLAY_SEQUENCE,
   sequence,
 })
-
 // 更改播放顺序Action
 export const changeCurrentCommentTotal = (total) => ({
   type: actionType.CHANGE_CURRENT_TOTAL,
   total,
 })
-
-
 // 切换歌曲Action
 export const changeCurrentIndexAndSongAction = (tag) => {
   return (dispatch, getState) => {
@@ -107,7 +95,6 @@ export const changeCurrentIndexAndSongAction = (tag) => {
     dispatch(getLyricAction(song.id))
   }
 }
-
 // 修改播放列表并修改歌曲数量
 export const changePlaylistAndCount = (playlist) => {
   return (dispatch) => {
@@ -115,7 +102,6 @@ export const changePlaylistAndCount = (playlist) => {
     dispatch(changePlayListCount(playlist.length))
   }
 }
-
 // 歌曲详情network request
 export const getSongDetailAction = (idx) => {
   return async (dispatch, getState) => {
@@ -162,8 +148,7 @@ export const getSongDetailAction = (idx) => {
     }
   }
 }
-
-// 歌曲详情(只有首次加载才会触发 Action,所以不redux中的playlist肯定不存在歌曲)
+// 歌曲详情(只有首次加载才会触发 Action,所以不在redux中的playlist肯定不存在歌曲)
 export const getSongDetailArrayAction = (listId, index) => {
   // 为什么单独抽离: (是根据listId来进行存储的)
   return (dispatch, getState) => {
@@ -178,14 +163,11 @@ export const getSongDetailArrayAction = (listId, index) => {
           这样就能进行很好的控制，简单的总结一下：就是必须控制本次ajax发送请求成功时，才能进行下一次ajax
           （核心在于使用标识变量，来控制ajax请求，且只有上次ajax请求成功，才能进行下一次ajax）
     */
-    // 1.获取歌曲列表
-    // debugger
     const playList = getState().getIn(['player', 'playList'])
     let i = 0
     let timer = null
     let excuteRun = true
     timer = setInterval(() => {
-      //获取本地当前正在播放的歌曲
       let idx = listId[i]
       new Promise(resolve => {
         excuteRun && getSongDetail(idx).then((res) => {
@@ -218,7 +200,6 @@ export const getSongDetailArrayAction = (listId, index) => {
     })
   }
 }
-
 // 歌词network request
 export const getLyricAction = (id) => {
   return async (dispatch) => {
@@ -229,7 +210,6 @@ export const getLyricAction = (id) => {
     })
   }
 }
-
 // 获取歌曲详情用于添加到播放列表
 export const getAddSongDetailAction = (id) => {
   return (dispatch, getState) => {
@@ -250,7 +230,6 @@ export const getAddSongDetailAction = (id) => {
     })
   }
 }
-
 // 获取歌曲热门评论
 export const getHotCommentAction = (id) => {
   return (dispatch) => {

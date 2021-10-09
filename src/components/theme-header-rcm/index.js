@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import propTypes from 'prop-types'
 import { RcmHeaderLeft, RcmHeaderRight, RcmHeaderWrapper } from './style'
-
 const ThemeHeaderRmc = function ThemeHeaderRmc(props) {
   const { title, keywords, showIcon, right, keywordsClick } = props
   return (
@@ -30,7 +29,6 @@ const ThemeHeaderRmc = function ThemeHeaderRmc(props) {
     </RcmHeaderWrapper>
   )
 }
-
 ThemeHeaderRmc.propTypes = {
   // title属性必填
   title: propTypes.string.isRequired,
@@ -39,11 +37,9 @@ ThemeHeaderRmc.propTypes = {
   right: propTypes.any,
   keywordsClick: propTypes.func,
 }
-
 ThemeHeaderRmc.defaultProps = {
   keywords: [],
   showIcon: true,
   right: '更多'
 }
-
 export default memo(ThemeHeaderRmc)

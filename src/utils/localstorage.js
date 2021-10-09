@@ -6,35 +6,23 @@ import { LOCAL_CURRENT_SONG_INDEX_KEY } from '../common/constants'
  * @param {String} key 本地存储key
  */
 export function addPlaylistId(id, key = LOCAL_PLAYLIST_ID_KEY) {
-  // 将听过的歌曲列表缓存在本地
+  // 获取缓存在本地的歌曲ID列表
   const songListId = localStorage.getItem(key)
     ? JSON.parse(localStorage.getItem(key))
     : []
+  //传来的是多个id的数组
   if (id instanceof Array) {
     id.forEach(id => {
       !songListId.includes(id) && songListId.push(id)
     })
   } else if (typeof id === 'number') {
-    // 本地存储保存包括不再重复添加
+    // 本地存储存在不再重复添加
     if (!songListId.includes(id)) songListId.push(id)
   } else {
     throw Error('id只能是数字或者数组类型')
   }
   localStorage.setItem(key, JSON.stringify(songListId))
 }
-
-/**
- * 获取歌曲列表id
- * @param {String} key
- * @returns {Array} 歌曲列表项id
- */
-export function getPlaylistId(key = LOCAL_PLAYLIST_ID_KEY) {
-  const songListId = localStorage.getItem(key)
-    ? JSON.parse(localStorage.getItem(key))
-    : []
-  return songListId
-}
-
 /**
  * 删除的歌曲ID
  * @param {Number or String} id 要删除的歌曲ID
@@ -50,7 +38,17 @@ export function removeSongId(id, key = LOCAL_PLAYLIST_ID_KEY) {
   }
   localStorage.setItem(key, JSON.stringify(songListId))
 }
-
+/**
+ * 获取歌曲列表id
+ * @param {String} key
+ * @returns {Array} 歌曲列表项id
+ */
+export function getPlaylistId(key = LOCAL_PLAYLIST_ID_KEY) {
+  const songListId = localStorage.getItem(key)
+    ? JSON.parse(localStorage.getItem(key))
+    : []
+  return songListId
+}
 /**
  * 清除全部歌曲
  * @param {String} key
@@ -65,7 +63,6 @@ export function removeAllSong(key = LOCAL_PLAYLIST_ID_KEY) {
   }
   localStorage.setItem(key, JSON.stringify(songListId))
 }
-
 /**
  * 重置本次存储歌曲列表ID
  * @param {Array} idArr 新歌曲列表数组
@@ -74,17 +71,7 @@ export function resetPlaylistId(idArr) {
   removeAllSong()
   idArr && idArr.forEach((id) => addPlaylistId(id))
 }
-
-// ------记忆当前播放歌曲Index------
-/**
- * 更新音乐索引
- * @param {Number} index 音乐索引
- * @param {*} key 
- */
-export function setCurrentSongIndex(index, key = LOCAL_CURRENT_SONG_INDEX_KEY) {
-  localStorage.setItem(key, index)
-}
-
+// ----------------记忆当前播放歌曲Index--------------
 /**
  * 初始存储
  * @param {Numebr} index 音乐索引
@@ -95,7 +82,14 @@ export function initCurrentSongIndex(index = 0, key = LOCAL_CURRENT_SONG_INDEX_K
     localStorage.setItem(key, index)
   }
 }
-
+/**
+ * 更新音乐索引
+ * @param {Number} index 音乐索引
+ * @param {*} key 
+ */
+export function setCurrentSongIndex(index, key = LOCAL_CURRENT_SONG_INDEX_KEY) {
+  localStorage.setItem(key, index)
+}
 /**
  * 获取歌曲索引
  * @param {String} key 

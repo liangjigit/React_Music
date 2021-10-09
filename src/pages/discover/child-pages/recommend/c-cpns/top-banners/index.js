@@ -1,18 +1,13 @@
 // 1. 第三方库
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
-
 // 2. 功能性东西
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { getTopBannersAction } from '../../store/actionCreator'
-
 // 3. 导入的组件
 import { Carousel } from 'antd'
 import { BannerControl, BannerLeft, BannerRight, BannerWrapper } from './style'
-
 export default memo(function TopBanners() {
-  // 组件内state
   const [currentIndex, setCurrentIndex] = useState(0)
-
   // redux Hook 组件和redux关联: 获取数据和进行操作
   const dispatch = useDispatch()
   const { topBanners } = useSelector(
@@ -23,24 +18,18 @@ export default memo(function TopBanners() {
     }),
     shallowEqual
   )
-
-  // 其他Hook
   const bannerRef = useRef()
   useEffect(() => {
     // 在组件渲染之后发送网络请求
     dispatch(getTopBannersAction())
   }, [dispatch])
-
   const bannerChange = useCallback((from, to) => {
     setCurrentIndex(to)
   }, [])
-
-  // 其他的逻辑代码 memoize
   const bgImage =
     topBanners &&
     topBanners[currentIndex] &&
     topBanners[currentIndex].imageUrl + '?imageView&blur=40x20'
-
   return (
     <BannerWrapper bgImage={bgImage}>
       <div className="banner w980">

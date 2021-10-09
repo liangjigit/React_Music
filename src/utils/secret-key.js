@@ -1,8 +1,8 @@
 //前端对数据进行加解密
 import CryptoJS from 'crypto-js';
+//加密的秘钥
 import { secretKey } from '@/config/token.js';
 import { message } from 'antd';
-
 /**
  * 加密信息,本地存储
  * @param {String} key 本地存储key
@@ -22,7 +22,6 @@ export async function setLoginInfo(key, info) {
     return false;
   }
 }
-
 /**
  * 取出加密后的信息
  * @param {String} key 本地存储key
@@ -36,7 +35,6 @@ export function getLoginInfo(key) {
     return JSON.parse(originalText);
   }
 }
-
 /**
  * 清除登录状态
  */

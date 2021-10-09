@@ -1,8 +1,6 @@
 import React, { Fragment, memo } from 'react'
 import { FooterLeft, FooterRight, FooterWrapper } from './style'
-
 import { footerLinks, footerImages } from '@/common/local-data'
-
 export default memo(function JMAppFooter() {
   // 底部左侧
   const showCopys = item => {
