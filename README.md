@@ -1,8 +1,6 @@
-# React技术栈 网易云音乐PC项目实战
-
 ## 项目简介
 ### 技术栈
-基于 `react` + `redux` + `react-router` + `styled-components` + `axios` + `ant design` + `react-redux` + `redux-thunk` `immutable` + `redux-immutable` + `react-transition-group` 等开发一款PC端「网易云音乐PC」 Web项目，UI 界面参考了PC版的网易云音乐、flex 布局。
+基于 `react` + `redux` + `react-router` + `styled-components` + `axios` + `ant design` + `react-redux` + `redux-thunk` `immutable` + `redux-immutable` + `react-transition-group` 等开发一款界面参考网易云音乐的pc项目、flex 布局。
 
 ### 前端
 
